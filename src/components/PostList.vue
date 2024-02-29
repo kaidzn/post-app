@@ -1,25 +1,27 @@
 <template>
-    <div class="post" 
-    v-for="post in posts">
-      <div class="container">
-          <p>This is the <strong>{{ post.title }}</strong></p>
-          <p>Description: <strong>{{ post.description }}</strong></p>
-        </div>
-        <button @click="removePost(post)" class="rmv-btn">Remove</button>
+    <div v-if="posts.length > 0">
+      <h3>List of users</h3>
+      <post-item
+          v-for="post in posts"
+          :key="post.id"
+          :post="post"
+          @remove="$emit('remove', post)"
+      />
     </div>
+  <h1 v-else style="color: red">
+      Users' list is empty
+  </h1>
 </template>
 
 <script>
+import PostItem from "@/components/PostItem.vue";
+
 export default {
+  components: {PostItem},
    props: {
     posts: {
         type: Array,
         required: true,
-    }
-   },
-   methods: {
-    removePost(post) {
-      this.$emit('remove', post);
     }
    }
 }
